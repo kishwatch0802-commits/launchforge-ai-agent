@@ -1,0 +1,20 @@
+[
+  {
+    "name": "Tutoring business",
+    "idea": "I want to start a tutoring business helping GCSE and A-Level students with Maths, Physics, and admissions tests like ESAT. I want to start locally, keep costs low, and get my first 10 students.",
+    "budget": 600,
+    "location": "Local area"
+  },
+  {
+    "name": "Corner shop",
+    "idea": "I want to open a small corner shop near a train station selling snacks, drinks, essentials, and quick breakfast items for commuters and local residents.",
+    "budget": 12000,
+    "location": "Near a train station"
+  },
+  {
+    "name": "Shopify store",
+    "idea": "I want to launch a Shopify store selling affordable gym accessories like lifting straps, shaker bottles, resistance bands, and training notebooks.",
+    "budget": 2500,
+    "location": "Online"
+  }
+]

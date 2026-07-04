@@ -1,0 +1,7 @@
+streamlit>=1.32
+pydantic>=1.10
+pandas>=2.0
+plotly>=5.18
+matplotlib>=3.8
+pytest>=7.4
+python-dotenv>=1.0

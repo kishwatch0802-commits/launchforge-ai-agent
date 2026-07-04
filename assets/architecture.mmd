@@ -1,0 +1,16 @@
+flowchart LR
+    UI[Streamlit UI] --> Runtime[ADK-style Sequential Runner]
+    Runtime --> C[Classifier Agent]
+    C --> M[Market Agent]
+    M --> O[Offer Agent]
+    O --> P[Pricing Agent]
+    P --> MK[Marketing Agent]
+    MK --> OPS[Operations Agent]
+    OPS --> F[Finance Agent]
+    F --> R[Roadmap Agent]
+    R --> CR[Critic Agent]
+    CR --> V[Visual Pack Agent]
+    V --> Pack[Launch Pack Export]
+    MK -. uses .-> MCP[MCP Tool Layer]
+    F -. uses .-> MCP
+    P -. uses .-> MCP
