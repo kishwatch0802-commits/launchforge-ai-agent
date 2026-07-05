@@ -26,7 +26,11 @@ streamlit run app.py
 2. Create a new Streamlit app.
 3. Set the entry point to `app.py`.
 4. Leave secrets empty for deterministic mode.
-5. Optionally add `GOOGLE_API_KEY` later for Gemini-backed extensions.
+5. Optionally add `GOOGLE_API_KEY` later for Gemini-assisted Copilot mode.
+
+## Optional ADK/Gemini Mode
+
+LaunchForge does not require Google ADK or a key for the public demo. The requirements include `google-genai` so Copilot can make a real Gemini call when `GOOGLE_API_KEY` is set through your shell or hosting secret manager. ADK/LlmAgent definitions remain visible for the capstone architecture, and the app falls back safely if Gemini, ADK, or the key is unavailable.
 
 ## Docker
 

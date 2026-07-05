@@ -33,7 +33,9 @@ class BusinessInput(BaseModel):
 class BusinessClassification(BaseModel):
     business_type: BusinessType
     confidence: float = Field(default=0.5, ge=0, le=1)
+    matched_signals: List[str] = Field(default_factory=list)
     reasoning: str
+    uncertainty_notes: List[str] = Field(default_factory=list)
     assumptions: List[str] = Field(default_factory=list)
 
 
@@ -60,6 +62,8 @@ class PricingTier(BaseModel):
     unit: str
     includes: List[str]
     rationale: str
+    when_to_use: str = ""
+    upgrade_path: str = ""
 
 
 class CashflowMonth(BaseModel):
@@ -81,9 +85,14 @@ class LaunchTask(BaseModel):
 
 class LaunchPack(BaseModel):
     input: BusinessInput
+    currency_code: str = "GBP"
+    currency_symbol: str = "\u00a3"
     classification: BusinessClassification
     readiness_score: int = Field(ge=0, le=100)
+    launch_readiness_label: str = "Planning"
     readiness_breakdown: Dict[str, int]
+    readiness_strengths: List[str] = Field(default_factory=list)
+    readiness_gaps: List[str] = Field(default_factory=list)
     business_model_canvas: Dict[str, List[str]]
     personas: List[CustomerPersona]
     offer_ladder: List[OfferPackage]
@@ -92,6 +101,8 @@ class LaunchPack(BaseModel):
     roadmap: List[LaunchTask]
     cashflow: List[CashflowMonth]
     startup_costs: Dict[str, float]
+    cashflow_assumptions: Dict[str, List[str]] = Field(default_factory=dict)
+    forecast_disclaimer: str = "Planning forecast only; not financial advice."
     breakeven_month: str
     operations_checklist: List[str]
     marketing_messages: Dict[str, List[str]]
@@ -100,6 +111,20 @@ class LaunchPack(BaseModel):
     next_3_actions: List[str]
     critic_notes: List[str]
     diagrams: Dict[str, str]
+    agent_trace: List[Dict[str, Any]] = Field(default_factory=list)
+    runtime_status: Dict[str, Any] = Field(default_factory=dict)
+    agent_registry: List[Dict[str, Any]] = Field(default_factory=list)
+    tool_registry: List[Dict[str, Any]] = Field(default_factory=list)
+    execution_trace: List[Dict[str, Any]] = Field(default_factory=list)
+    segment_scores: List[Dict[str, Any]] = Field(default_factory=list)
+    offer_fit_scores: List[Dict[str, Any]] = Field(default_factory=list)
+    pricing_scenarios: List[Dict[str, Any]] = Field(default_factory=list)
+    funnel_model: List[Dict[str, Any]] = Field(default_factory=list)
+    capacity_model: Dict[str, Any] = Field(default_factory=dict)
+    scenario_forecasts: Dict[str, Any] = Field(default_factory=dict)
+    roadmap_priority_scores: List[Dict[str, Any]] = Field(default_factory=list)
+    critic_red_team: Dict[str, Any] = Field(default_factory=dict)
+    dashboard_package: Dict[str, Any] = Field(default_factory=dict)
 
 
 def model_to_dict(model: BaseModel) -> Dict[str, Any]:

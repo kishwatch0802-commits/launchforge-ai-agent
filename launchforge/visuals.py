@@ -51,10 +51,39 @@ def cashflow_chart(cashflow: List[CashflowMonth]):
         import pandas as pd
         import plotly.express as px
 
+        labels = {
+            "revenue": "Revenue",
+            "costs": "Costs",
+            "cumulative_cashflow": "Cumulative cashflow",
+        }
         df = pd.DataFrame(rows)
         long_df = df.melt(id_vars="month", value_vars=["revenue", "costs", "cumulative_cashflow"], var_name="metric", value_name="amount")
-        fig = px.line(long_df, x="month", y="amount", color="metric", markers=True, title="3-Month Cashflow Forecast")
-        fig.update_layout(legend_title_text="", margin=dict(l=20, r=20, t=50, b=20))
+        long_df["metric"] = long_df["metric"].map(labels)
+        fig = px.line(
+            long_df,
+            x="month",
+            y="amount",
+            color="metric",
+            markers=True,
+            title="3-Month Planning Forecast",
+            color_discrete_map={
+                "Revenue": "#2f80ed",
+                "Costs": "#ef4444",
+                "Cumulative cashflow": "#6d5dfc",
+            },
+        )
+        fig.update_traces(line=dict(width=3), marker=dict(size=8))
+        fig.update_layout(
+            legend_title_text="",
+            legend=dict(orientation="h", yanchor="bottom", y=1.03, xanchor="right", x=1),
+            margin=dict(l=24, r=24, t=70, b=28),
+            plot_bgcolor="rgba(0,0,0,0)",
+            paper_bgcolor="rgba(0,0,0,0)",
+            font=dict(color="#1f2937"),
+            title=dict(font=dict(size=18, color="#111827")),
+            xaxis=dict(title="Month", showgrid=False, tickmode="linear", dtick=1),
+            yaxis=dict(title="Amount", gridcolor="#e7edf7", zerolinecolor="#94a3b8"),
+        )
         return fig
     except Exception:  # noqa: BLE001
         import matplotlib.pyplot as plt
@@ -79,28 +108,37 @@ def business_model_canvas_data(context: Dict[str, Any]) -> Dict[str, List[str]]:
     pricing = context.get("pricing", [])
     channels = context.get("launch_channels", [])
     startup_costs = context.get("startup_costs", {})
+    currency_symbol = context.get("currency_symbol", "£")
     persona_segments = [p.segment for p in personas]
-    price_units = [f"{p.tier}: {as_money(p.price) if p.price >= 100 else '$' + str(p.price)} / {p.unit}" for p in pricing]
+    price_units = [f"{p.tier}: {as_money(p.price, currency_symbol)} / {p.unit}" for p in pricing]
     if business_type == "local_service":
-        key_activities = ["Deliver repeatable sessions", "Collect testimonials", "Run local outreach"]
-        key_resources = ["Founder expertise", "Booking calendar", "Diagnostic checklist"]
+        key_activities = ["Deliver diagnostic and weekly tutoring sessions", "Send parent/student progress updates", "Collect testimonials and referrals"]
+        key_resources = ["Maths/Physics subject expertise", "Booking calendar", "Diagnostic checklist and past-paper bank"]
+        relationships = ["WhatsApp/email follow-up", "Parent update after sessions", "Referral and testimonial loop"]
+        partners = ["School/parent communities", "Local Facebook and WhatsApp groups", "Payment and booking tools"]
     elif business_type == "physical_retail":
-        key_activities = ["Manage stock and suppliers", "Optimise layout", "Run daily cash-up"]
-        key_resources = ["Premises", "Supplier accounts", "POS and stock sheet"]
+        key_activities = ["Manage stock and reorder points", "Optimise shop layout and opening hours", "Run daily cash-up and shrinkage checks"]
+        key_resources = ["Station-adjacent premises", "Supplier accounts", "POS, stock sheet, and signage"]
+        relationships = ["Fast in-store service", "Loyalty stamp", "Visible opening-week offers"]
+        partners = ["Wholesale suppliers", "Local station/community channels", "Payment/POS provider"]
     elif business_type == "ecommerce":
-        key_activities = ["Test product hooks", "Manage supplier quality", "Improve product pages"]
-        key_resources = ["Shopify store", "Samples", "Content assets"]
+        key_activities = ["Validate product hooks", "Improve Shopify product pages", "Manage supplier quality and fulfilment"]
+        key_resources = ["Shopify store", "Product samples", "Content assets and analytics"]
+        relationships = ["Email capture", "Review requests", "Post-purchase cross-sell"]
+        partners = ["Product suppliers", "Creators/micro-influencers", "Fulfilment and payment providers"]
     else:
         key_activities = ["Validate offer", "Sell pilot", "Measure feedback"]
         key_resources = ["Founder time", "Landing page", "CRM sheet"]
+        relationships = ["Fast response", "Clear expectations", "Feedback calls"]
+        partners = ["Referral partners", "Launch channels", "Payment tools"]
     return {
         "Customer Segments": persona_segments,
         "Value Propositions": [context.get("value_proposition", "Focused launch offer")],
         "Channels": channels,
-        "Customer Relationships": ["Fast response", "Clear expectations", "Proof through outcomes"],
+        "Customer Relationships": relationships,
         "Revenue Streams": price_units,
         "Key Activities": key_activities,
         "Key Resources": key_resources,
-        "Key Partners": ["Suppliers or referral partners", "Local/community channels", "Payment/booking tools"],
-        "Cost Structure": [f"{name}: {as_money(value)}" for name, value in startup_costs.items()],
+        "Key Partners": partners,
+        "Cost Structure": [f"{name}: {as_money(value, currency_symbol)}" for name, value in startup_costs.items()],
     }

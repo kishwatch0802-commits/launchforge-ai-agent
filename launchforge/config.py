@@ -29,5 +29,21 @@ def sanitize_text(value: Any, max_chars: int = MAX_INPUT_CHARS) -> str:
     return text
 
 
-def as_money(value: float | int) -> str:
-    return f"${float(value):,.0f}"
+def detect_currency(*parts: Any) -> tuple[str, str]:
+    """Detect a sensible display currency from user-provided launch context."""
+
+    text = " ".join(str(part or "") for part in parts).lower()
+    us_signals = [" usa", " u.s.", "united states", "new york", "california", "dollar", " usd", "$"]
+    uk_signals = ["gcse", "a-level", "alevel", "esat", " uk", "london", "sixth form", "parents of gcse", "local area"]
+    if any(signal in text for signal in us_signals):
+        return "USD", "$"
+    if any(signal in text for signal in uk_signals):
+        return "GBP", "\u00a3"
+    return "GBP", "\u00a3"
+
+
+def as_money(value: float | int, symbol: str = "\u00a3") -> str:
+    amount = float(value)
+    if amount.is_integer():
+        return f"{symbol}{amount:,.0f}"
+    return f"{symbol}{amount:,.2f}"

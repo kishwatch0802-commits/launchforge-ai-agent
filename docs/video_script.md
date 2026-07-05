@@ -10,9 +10,9 @@
 
 ## 1:00 Architecture
 
-"The app uses an ADK-style sequential agent runtime. Each agent has a role: classifier, market, offer, pricing, marketing, operations, finance, roadmap, critic, and visual pack. The agents share a context and validate the final output with Pydantic."
+"The app uses a three-layer architecture. The top layer is a set of ADK/LlmAgent-style agent definitions: orchestrator, classifier, market, offer, pricing, marketing, operations, finance, roadmap, critic, visual packaging, and Copilot. Under that, deterministic MCP-style tools do the reliable calculations. The dashboard shows both layers separately in the Agent Control Room."
 
-Show `docs/architecture.md`, `workflow.py`, and `AGENTS.md`.
+Show `docs/architecture.md`, `agent_registry.py`, `adk_runtime.py`, `workflow.py`, and `AGENTS.md`.
 
 ## 1:45 Demo Local Service Business
 
@@ -28,9 +28,9 @@ Click "Load Shopify Demo" and generate. Show hero product validation, bundle pri
 
 ## 4:00 Technical Build
 
-"This project demonstrates ADK-style agents, MCP tools, agent skills, security, and deployability. The MCP layer exposes classification, pricing, cashflow, funnel, launch tasks, and export. Skills wrap cashflow, funnel, export, and pack assembly. Security features include no hard-coded keys, input sanitization, privacy mode, no disk writes for user ideas, and export-only downloads."
+"This project demonstrates ADK/LlmAgent-style agent definitions, a real Gemini Copilot path through google-genai when a key is configured, deterministic MCP tools, agent skills, security, and deployability. LaunchForge uses deterministic tools for reliable calculations and Gemini/ADK-style agents for AI-assisted reasoning and synthesis when configured. The Agent Control Room shows runtime status, provider, model, agent definitions, tool mapping, and execution trace."
 
-Show `mcp_server/tools.py`, `skills/`, `docs/security.md`, `Dockerfile`, and tests.
+Show `agent_registry.py`, `adk_runtime.py`, `mcp_server/tools.py`, `.agents/skills/`, `docs/security.md`, `Dockerfile`, and tests. Ask Copilot: "Why is my readiness score?" Show the Finance Simulation scenario forecasts, Growth Marketing funnel bottleneck, Risk Critic findings, prompt-injection guardrail, and Export tab.
 
 ## 4:45 Conclusion
 

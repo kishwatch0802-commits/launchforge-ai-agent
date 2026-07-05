@@ -5,12 +5,13 @@ Use Antigravity in the capstone video/writeup as the development environment for
 Suggested video beats:
 
 1. Open the repository in Antigravity.
-2. Inspect `launchforge/workflow.py` to show the sequential ADK-style runner.
-3. Jump into `launchforge/agents/classifier_agent.py` and `launchforge/agents/finance_agent.py`.
-4. Inspect `launchforge/mcp_server/tools.py` to show MCP tooling.
-5. Run `pytest` inside the terminal.
-6. Run `streamlit run app.py`.
-7. Generate the three demo launch packs.
+2. Inspect `launchforge/agent_registry.py` and `launchforge/adk_runtime.py` to show the ADK/LlmAgent-style agent layer.
+3. Inspect `launchforge/workflow.py` to show how deterministic fallback orchestration produces the same launch-pack artefacts without secrets.
+4. Jump into `launchforge/mcp_server/tools.py` to show MCP-style tools for scoring, scenarios, funnel, capacity, critique, and export.
+5. Open `.agents/skills/` to show the reusable agent skill policies.
+6. Run `pytest` inside the terminal.
+7. Run `streamlit run app.py`.
+8. Generate the three demo launch packs and open the Agent Control Room.
 
 Narration:
 

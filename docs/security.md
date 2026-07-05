@@ -4,11 +4,20 @@ LaunchForge is designed as a lightweight capstone MVP with sensible defaults.
 
 ## API Keys
 
-The app runs without API keys. `GOOGLE_API_KEY` is optional and read only from the environment. No key is hard-coded, printed, or stored in exports.
+The app runs without API keys. `GOOGLE_API_KEY` is optional and read only from the environment. No key is hard-coded, printed, logged, displayed, or stored in exports. Runtime status shows only whether a key is available.
 
 ## Input Handling
 
 User input is sanitized in `config.py` and capped to avoid accidental huge submissions. Null bytes are removed and whitespace is normalized.
+
+Copilot input is additionally checked in `security.py`:
+
+- prompt-injection phrases such as "ignore previous instructions" are blocked;
+- email addresses are redacted;
+- phone numbers are redacted;
+- API-key-like strings are redacted.
+
+If Gemini is configured, Copilot sends only the sanitized question, retrieved platform context, and compact launch-pack summary. If the Gemini call fails, the answer is labeled as fallback after AI error and deterministic fallback is used.
 
 ## Data Storage
 
@@ -28,4 +37,4 @@ Forecasts are illustrative planning assumptions. They are not financial, legal, 
 
 ## Limitations
 
-This MVP does not include authentication, encrypted storage, audit logs, or rate limiting because it does not persist user accounts or serve as a production multi-tenant system. Those controls should be added before production use.
+This MVP does not include authentication, encrypted storage, audit logs, or rate limiting because it does not persist user accounts or serve as a production multi-tenant system. Those controls should be added before production use. Gemini/ADK mode is optional and must be configured through environment variables only.

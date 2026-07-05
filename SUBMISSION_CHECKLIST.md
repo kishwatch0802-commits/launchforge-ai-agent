@@ -12,6 +12,7 @@
 ## Media Gallery Assets Needed
 
 - App overview screenshot after generating the Tutoring demo.
+- Agent trace screenshot showing the specialist agents completed.
 - Customers & Offer screenshot showing persona cards and offer ladder.
 - Pricing & Finance screenshot showing pricing table and cashflow chart.
 - Marketing & Operations screenshot showing funnel and tailored copy.
